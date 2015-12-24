@@ -4,9 +4,9 @@ A javascript that navigates the kissanime.com pages and gets the download links 
 <section>
   <h4>Supported Websites</h4>
   <ul>
-    <li>KissAnime.com
-    <li>KissCartoon.com
-    <li>KissAsian.com
+    <li><a href="http://www.kissanime.com">KissAnime.com</a>
+    <li><a href="http://www.kisscatroon.me">KissCartoon.me</a>
+    <li><a href="http://www.kissasian.com">KissAsian.com</a>
   </ul>
 </section>
 
@@ -16,6 +16,7 @@ A javascript that navigates the kissanime.com pages and gets the download links 
   <ul>
     <li>You must login into your free account on the website, so that the download links will be visible
     <li>A javascript enabled web browser like Chrome etc,.
+    <li>For added performance, it is adives to <b>disable the ads using AdBlock</b>
   </ul>
 </section>
 
