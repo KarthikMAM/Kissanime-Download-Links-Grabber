@@ -4,7 +4,7 @@ A javascript that navigates the kissanime.com pages and gets the download links 
 <section>
   <h4>Supported Websites</h4>
   <ul>
-    <li><a href="http://www.kissanime.com">KissAnime.com</a>
+    <li><a href="http://www.kissanime.to">KissAnime.to</a>
     <li><a href="http://www.kisscatroon.me">KissCartoon.me</a>
     <li><a href="http://www.kissasian.com">KissAsian.com</a>
   </ul>
@@ -16,7 +16,7 @@ A javascript that navigates the kissanime.com pages and gets the download links 
   <ul>
     <li>You must login into your free account on the website, so that the download links will be visible
     <li>A javascript enabled web browser like Chrome etc,.
-    <li>For added performance, it is adives to <b>disable the ads using AdBlock</b>
+    <li>The additional scripts of the native website to get the download links
   </ul>
 </section>
 
@@ -34,10 +34,9 @@ A javascript that navigates the kissanime.com pages and gets the download links 
 <section>
   <h4>Working</h4>
   <ul>
-    <li>Creates an <b>iFrame</b> within the webpage
-    <li>This iframe is used to <b>load the successive webpages</b>
-    <li>Then <b>HTML DOM</b> is used to get the download links
-    <li>Then a new webpags is created and show as a <b>printout</b>
+    <li>Uses a get request to download the successive pages
+    <li>Then runs the <b>asp.js</b> script of the website to get the video links
+    <li>After completion, display the result in the information page's template 
   </ul>
 </section>
 

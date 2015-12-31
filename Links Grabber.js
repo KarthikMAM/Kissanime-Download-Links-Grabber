@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------------------------------
 
 	Author				: Karthik M A M
-	Version				: 2.0
+	Version				: 2.1
 	Websites Supported	: 1. http://www.kissanime.com
 						  2. http://www.kisscartoon.me
 						  3. http://www.kissasian.com
@@ -42,6 +42,7 @@ function documentReady(data) {
 							.split("/")[5]
 							.split("?")[0]
 							.split("-")[1];
+        console.log("Current Episode : " + episodeId);
 		
 		//Get the download links and select the quality
 		var dwnlLink = document.createElement("li");
