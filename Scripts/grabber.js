@@ -23,13 +23,13 @@ var NEXT_BUTTON_ID = "#btnNext";
 var MESSAGE_SELECT = "grabberProgress";
 
 //Stop the script if the script is already running
-if (document.getElementById("grabberProgress") != null) {
+if (document.getElementById(MESSAGE_SELECT) != null) {
     window.alert("Script is already running");
     throw new Error("Error: Script is already running");
 }
 
 //Select the quality
-var videoQuality = parseInt(prompt("Enter the file quality.. \n\t0 is max quality"));
+var videoQuality = parseInt(prompt("Enter the file quality.. (0 is max quality)"));
 
 
 //Global variables
@@ -56,7 +56,7 @@ function documentReady(data) {
 							.split("?")[0]
 							.split("-")[1];
         console.log("Current Episode : " + episodeId);
-        document.getElementById(MESSAGE_SELECT).innerHTML = "Grabbed " + episodeLinks.length + " Episodes... (<b>Current Episode : " + episodeId + " </b>)";
+        document.getElementById(MESSAGE_SELECT).innerHTML = "Grabbed " + episodeLinks.length + " Episodes... ( <b>Current Episode : " + episodeId + " </b>)";
 		
 		//Get the download links and select the quality
         //Push it to the download links list
@@ -98,10 +98,10 @@ function documentReady(data) {
 function writeDoc(episodeList, tempDoc) {
 	//Document Printer's Selectors
     var WEBSITE_SELC = document.location.href.includes("kissasian");
-	var LFT_ADS_DIVS = "#leftside > center";
 	var COMMENTS_DIV = "#leftside > div:nth-child(" + (WEBSITE_SELC ? "6" : "7") + ")";
 	var EPISODE_LIST = "#leftside > div:nth-child(" + (WEBSITE_SELC ? "2" : "4") + ") > div.barContent.episodeList";
 	var RIT_ADS_DIVS = "#rightside > div:nth-child(5)";
+	var LFT_ADS_DIVS = "#leftside > center";
 	
 	//Create a new container to hold the new list of episodes
 	var divEpisodes = document.createElement("div");
@@ -143,7 +143,7 @@ var loadPage =  "<body style='background-color:whitesmoke'>"
                             +"<p id='grabberProgress' style='font-family:Arial, Helvetica, sans-serif; color: #737373'>Grabbing Episodes. . .</p>"
                         +"</center>"
                     +"</div>"
-                "</body";
+                +"</body";
 document.head.innerHTML = "";
 document.body.outerHTML = loadPage;
 

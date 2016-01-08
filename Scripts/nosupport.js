@@ -32,7 +32,7 @@ var loadPage =  "<body style='background-color:whitesmoke'>"
                             +"</div>"
                         +"</center>"
                     +"</div>"
-                "</body";
+                +"</body";
 document.head.innerHTML = "";
 document.body.outerHTML = loadPage;
 
