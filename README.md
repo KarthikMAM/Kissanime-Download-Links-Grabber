@@ -14,7 +14,7 @@ A javascript based chrome extension to grab the links of all the episodes in a s
   <h4>Installation</h4>
   <ul>
     <li>Download the <a href="https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber/releases/download/v1.0/Kissanime-Download-Links-Grabber.crx">extension</a>
-    <li>Go to <b>Settings ➤ More Tools ➤ Extensions
+    <li>Go to <b>Settings ➤ More Tools ➤ Extensions</b>
     <li>Drag and drop the <b>.crx</b> file into it
     <li>Click on the <b>Add</b> button to install it
   </ul>
