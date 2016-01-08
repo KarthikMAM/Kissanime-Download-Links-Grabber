@@ -39,7 +39,7 @@ var nextPage = document.location.href;
 var episodeTitle = nextPage
 						.split("/")[4]
 						.split("-")
-						.join(" ") + " -";
+						.join(" ") + "Episode -";
                         
                         
 function documentReady(data) {
@@ -56,21 +56,21 @@ function documentReady(data) {
 							.split("?")[0]
 							.split("-")[1];
         console.log("Current Episode : " + episodeId);
-        document.getElementById(MESSAGE_SELECT).innerHTML = "Grabbed " + episodeLinks.length + " Episodes... ( <b>Current Episode : " + episodeId + " </b>)";
+        document.getElementById(MESSAGE_SELECT).innerHTML = "Grabbed " + episodeLinks.length + " Episodes... ( <b>Current Episode : " + episodeId + "</b> )";
 		
 		//Get the download links and select the quality
         //Push it to the download links list
         try {
             var episodeLink = document.createElement("li");
             episodeLink.innerHTML = asp.wrap(tempDoc
-                                            .querySelector(DWN_SCRIPT_SEL)
-                                            .innerHTML
-                                            .split('"')[1]);
+												.querySelector(DWN_SCRIPT_SEL)
+												.innerHTML
+												.split('"')[1]);
             episodeLink.getElementsByTagName("a")[videoQuality].innerHTML = episodeTitle.replace("-", episodeId);
             episodeLink.innerHTML = episodeLink.getElementsByTagName("a")[videoQuality].outerHTML;
             episodeLinks.push(episodeLink);
         } catch (error) {
-            document.getElementById(MESSAGE_SELECT).innerHTML = "Sorry, but you have selected a quality that is not avilable ☹";
+            document.getElementById(MESSAGE_SELECT).innerHTML = "Sorry, but you have selected a file that is not avilable ☹";
             setTimeout(function() { document.location.reload(); }, 5000);
             return;
         }
@@ -129,7 +129,11 @@ function writeDoc(episodeList, tempDoc) {
 					+"<body>"
 			 			+tempDoc.querySelector("#container").outerHTML
                         +"<div style='height:85%'></div>"
-                        +"<br> <br> <div id='footer' style='position:relative; width:100%'> <div id='footcontainer'> <p> Extension Developed by <a href='http://github.com/KarthikMAM'>Karthik M A M</a>. View this repository on <a href='https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber'>GitHub</a>. You can also request features <a href='https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber/issues'>@Github Issues</a> </p> </div> </div>"
+                        +"<br> <br> <div id='footer' style='position:relative; width:100%'> <div id='footcontainer'> <p>"
+							+"Extension Developed by <a href='http://github.com/KarthikMAM'>Karthik M A M</a>. "
+							+"View this repository on <a href='https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber'>GitHub</a>. "
+							+"You can also request features <a href='https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber/issues'>@Github Issues</a>"
+						+"</p> </div> </div>"
 					+"</body>"
 				 +"</html>";
     document.documentElement.innerHTML = docHTML;
