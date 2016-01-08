@@ -1,5 +1,5 @@
 # Kissanime-Download-Links-Grabber
-A javascript that navigates the kissanime.com pages and gets the download links of all the videos in the series
+A javascript based chrome extension to grab the links of all the episodes in a series from the websites <b>KissAnime | KissAsian | KissCartoon
 
 <section>
   <h4>Supported Websites</h4>
@@ -10,13 +10,13 @@ A javascript that navigates the kissanime.com pages and gets the download links 
   </ul>
 </section>
 
-
-<section>
-  <h4>Requirements</h4>
+<section> 
+  <h4>Installation</h4>
   <ul>
-    <li>You must login into your free account on the website, so that the download links will be visible
-    <li>A javascript enabled web browser like Chrome etc,.
-    <li>The additional scripts of the native website to get the download links
+    <li>Download the <a href="https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber/releases/download/v1.0/Kissanime-Download-Links-Grabber.crx">extension</a>
+    <li>Go to <b>Settings ➤ More Tools ➤  Extensions
+    <li>Drag and drop the <b>.crx</b> file into it
+    <li>Click on the <b>Add</b> button to install it
   </ul>
 </section>
 
@@ -24,19 +24,17 @@ A javascript that navigates the kissanime.com pages and gets the download links 
   <h4>Instructions</h4>
   <ul>
     <li>Go to the page containing the start of the episode from which you want to download
-    <li>Click <b>F12</b> to open the developer's pane
-    <li>Select the <b>Console</b> pane
-    <li>Copy and paste the code to the in the console
-    <li>When the grabber has grabbed all the files, it will allow you to save the links as a pdf document
+    <li>Click the extension button, to start the download
   </ul>
 </section>
 
 <section>
-  <h4>Working</h4>
+  <h4>Requirements</h4>
   <ul>
-    <li>Uses a get request to download the successive pages
-    <li>Then runs the <b>asp.js</b> script of the website to get the video links
-    <li>After completion, display the result in the information page's template 
+    <li>You must login into your free account on the website, so that the download links will be visible
+    <li>A chrome based browser
+    <li>The additional scripts of the native website to get the download links
+    <li>Install the extension from the third-party sites
   </ul>
 </section>
 
