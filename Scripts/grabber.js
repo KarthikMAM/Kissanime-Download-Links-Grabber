@@ -39,7 +39,7 @@ var nextPage = document.location.href;
 var episodeTitle = nextPage
 						.split("/")[4]
 						.split("-")
-						.join(" ") + "Episode -";
+						.join(" ") + " Episode -";
                         
                         
 function documentReady(data) {
