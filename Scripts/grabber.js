@@ -88,7 +88,8 @@ function documentReady(data) {
 		}
 		
 		//Get the next page
-		$.get(nextPage, documentReady);
+        //Have a timeout to prevent the website from discovering you as a script
+		setTimeout( function() { $.get(nextPage, documentReady); }, 1200);
 	} else {
 		//Create a new HTML document for displaying the results
 		writeDoc(episodeLinks, tempDoc);
@@ -96,6 +97,7 @@ function documentReady(data) {
 };
 
 function writeDoc(episodeList, tempDoc) {
+    
 	//Document Printer's Selectors
     var WEBSITE_SELC = document.location.href.includes("kissasian");
 	var COMMENTS_DIV = "#leftside > div:nth-child(" + (WEBSITE_SELC ? "6" : "7") + ")";
@@ -110,7 +112,7 @@ function writeDoc(episodeList, tempDoc) {
 		episodeHTML += episodeList[i].outerHTML;
 	}
 	episodeHTML += "</h3></ul>";
-	divEpisodes.innerHTML = episodeHTML;
+	divEpisodes.innerHTML = "<div class='arrow-general'>&nbsp;</div>" + episodeHTML;
 	
 	//Remove the unwanted contents and add the required contents
 	try {
@@ -124,9 +126,9 @@ function writeDoc(episodeList, tempDoc) {
 	
 	//Create the html document using the original document as a template
 	var docHTML = "<html>"
-					+"<br><br>"
 					+tempDoc.getElementsByTagName("head")[0].outerHTML
 					+"<body>"
+                        +"<br><br>"
 			 			+tempDoc.querySelector("#container").outerHTML
                         +"<div style='height:85%'></div>"
                         +"<br> <br> <div id='footer' style='position:relative; width:100%'> <div id='footcontainer'> <p>"
@@ -134,9 +136,16 @@ function writeDoc(episodeList, tempDoc) {
 							+"View this repository on <a href='https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber'>GitHub</a>. "
 							+"You can also request features <a href='https://github.com/KarthikMAM/Kissanime-Download-Links-Grabber/issues'>@Github Issues</a>"
 						+"</p> </div> </div>"
+                        +"</script>"
 					+"</body>"
 				 +"</html>";
     document.documentElement.innerHTML = docHTML;
+    
+    //Make all the links open in a new tab
+    var links = document.getElementsByTagName("a");
+    for ( var i in links ) {
+        links[i].target = "_blank";
+    }
 }
 
 //Add a loading animation page to indicate the progress
@@ -148,7 +157,7 @@ var loadPage =  "<body style='background-color:whitesmoke'>"
                         +"</center>"
                     +"</div>"
                 +"</body";
-document.head.innerHTML = "";
+document.head.innerHTML = "<title> KissAnime | KissCartoon | KissAsian Download Links Grabber </title>";
 document.body.outerHTML = loadPage;
 
 //Start the links grabbing

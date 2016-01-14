@@ -37,7 +37,7 @@ var loadPage =  "<body style='background-color:whitesmoke'>"
                         +"</center>"
                     +"</div>"
                 +"</body";
-document.head.innerHTML = "";
+document.head.innerHTML = "<title> KissAnime | KissCartoon | KissAsian Download Links Grabber </title>";
 document.body.outerHTML = loadPage;
 
 //Refresh the page after 7 seconds
