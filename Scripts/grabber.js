@@ -113,8 +113,8 @@ function documentReady(data) {
 function writeDoc(episodeList, tempDoc) {
     
 	//Document Printer's Selectors
-	var COMMENTS_DIV = "#leftside > div:nth-child(" + (IS_KISSASIAN ? "6" : "7") + ")";
-	var EPISODE_LIST = "#leftside > div:nth-child(" + (IS_KISSASIAN ? "2" : "4") + ") > div.barContent.episodeList";
+	var COMMENTS_DIV = "#leftside > div:nth-child(" + (IS_KISSASIAN ? "8" : "7") + ")";
+	var EPISODE_LIST = "#leftside > div:nth-child(4) > div.barContent.episodeList";
 	var RIT_ADS_DIVS = "#rightside > div:nth-child(5)";
 	var LFT_ADS_DIVS = "#leftside > center";
 	
