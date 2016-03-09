@@ -15,10 +15,14 @@
 
 -----------------------------------------------------------------------------------------------------------*/
 
+//Domain identifier
+var IS_KISSANIME = document.location.href.includes("kissanime");
+var IS_KISSASIAN = document.location.href.includes("kissasian");
+var IS_KISSCARTN = document.location.href.includes("kisscartoon"); 
 
 //Global Selectors
 var TITLE_SELECTOR = "#navsubbar > p > a";
-var DWN_SCRIPT_SEL = "#divDownload script";
+var DWN_SCRIPT_SEL = IS_KISSANIME ? "#divDownload > a:nth-child(1)" : "#divDownload script";
 var NEXT_BUTTON_ID = "#btnNext";
 var MESSAGE_SELECT = "grabberProgress";
 
@@ -29,7 +33,12 @@ if (document.getElementById(MESSAGE_SELECT) != null) {
 }
 
 //Select the quality
-var videoQuality = parseInt(prompt("Enter the file quality.. (0 is max quality)"));
+if(IS_KISSANIME) {
+    var videoQuality = prompt("Enter the file quality.. (1 is max quality)");
+    DWN_SCRIPT_SEL = DWN_SCRIPT_SEL.replace("1", videoQuality);
+} else {
+    var videoQuality = parseInt(prompt("Enter the file quality.. (0 is max quality)"));
+}
 
 
 //Global variables
@@ -62,12 +71,17 @@ function documentReady(data) {
         //Push it to the download links list
         try {
             var episodeLink = document.createElement("li");
-            episodeLink.innerHTML = asp.wrap(tempDoc
-												.querySelector(DWN_SCRIPT_SEL)
-												.innerHTML
-												.split('"')[1]);
-            episodeLink.getElementsByTagName("a")[videoQuality].innerHTML = episodeTitle.replace("-", episodeId);
-            episodeLink.innerHTML = episodeLink.getElementsByTagName("a")[videoQuality].outerHTML;
+            if (IS_KISSANIME) {
+                episodeLink.innerHTML = tempDoc.querySelector(DWN_SCRIPT_SEL).outerHTML;
+                episodeLink.getElementsByTagName("a")[0].innerHTML = episodeTitle.replace("-", episodeId);   
+            } else {
+                episodeLink.innerHTML = asp.wrap(tempDoc
+                                                    .querySelector(DWN_SCRIPT_SEL)
+                                                    .innerHTML
+                                                    .split('"')[1]);
+                episodeLink.getElementsByTagName("a")[videoQuality].innerHTML = episodeTitle.replace("-", episodeId);
+                episodeLink.innerHTML = episodeLink.getElementsByTagName("a")[videoQuality].outerHTML;
+            }
             episodeLinks.push(episodeLink);
         } catch (error) {
             document.getElementById(MESSAGE_SELECT).innerHTML = "Sorry, but you have selected a file that is not avilable ☹";
@@ -99,9 +113,8 @@ function documentReady(data) {
 function writeDoc(episodeList, tempDoc) {
     
 	//Document Printer's Selectors
-    var WEBSITE_SELC = document.location.href.includes("kissasian");
-	var COMMENTS_DIV = "#leftside > div:nth-child(" + (WEBSITE_SELC ? "6" : "7") + ")";
-	var EPISODE_LIST = "#leftside > div:nth-child(" + (WEBSITE_SELC ? "2" : "4") + ") > div.barContent.episodeList";
+	var COMMENTS_DIV = "#leftside > div:nth-child(" + (IS_KISSASIAN ? "6" : "7") + ")";
+	var EPISODE_LIST = "#leftside > div:nth-child(" + (IS_KISSASIAN ? "2" : "4") + ") > div.barContent.episodeList";
 	var RIT_ADS_DIVS = "#rightside > div:nth-child(5)";
 	var LFT_ADS_DIVS = "#leftside > center";
 	
