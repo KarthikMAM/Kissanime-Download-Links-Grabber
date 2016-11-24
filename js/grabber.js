@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------------------------------
 
 	Author				: Karthik M A M
-	Version				: 2.2
+	Version				: 2.3
 	Websites Supported	: 1. http://www.kissanime.com
 						  2. http://www.kisscartoon.me
 						  3. http://www.kissasian.com
@@ -10,87 +10,73 @@
 						  2. Press F12 and to open the Browser's console
 						  3. Copy this script and press enter
 						  4. Wait till all the results page appears
-	References			: 1. "https://kissanime.to/Scripts/asp.js" for getting video links
 							
 
 -----------------------------------------------------------------------------------------------------------*/
 
-//Domain identifier
+//domain identifier
 var IS_KISSANIME = document.location.href.includes("kissanime");
 var IS_KISSASIAN = document.location.href.includes("kissasian");
 var IS_KISSCARTN = document.location.href.includes("kisscartoon"); 
 
-//Global Selectors
+//global Selectors
 var TITLE_SELECTOR = "#navsubbar > p > a";
-var DWN_SCRIPT_SEL = IS_KISSANIME ? "#divDownload > a:nth-child(1)" : "#divDownload script";
+var DWN_SCRIPT_SEL = IS_KISSANIME ? "#divDownload" : "#divDownload script";
 var NEXT_BUTTON_ID = "#btnNext";
 var MESSAGE_SELECT = "grabberProgress";
 
-//Stop the script if the script is already running
+//stop the script if the script is already running
 if (document.getElementById(MESSAGE_SELECT) != null) {
     window.alert("Script is already running");
     throw new Error("Error: Script is already running");
 }
 
-//Select the quality
-if(IS_KISSANIME) {
-    var videoQuality = prompt("Enter the file quality.. (1 is max quality)");
-    DWN_SCRIPT_SEL = DWN_SCRIPT_SEL.replace("1", videoQuality);
-} else {
-    var videoQuality = parseInt(prompt("Enter the file quality.. (0 is max quality)"));
-}
-
-
-//Global variables
+//global variables
 var episodeLinks = [];
 var isComplete = false;
-var nextPage = document.location.href;
-var episodeTitle = nextPage
-						.split("/")[4]
-						.split("-")
-						.join(" ") + " Episode -";
-                        
-                        
+var nextPage = document.location.href;                        
+
+//logic to grab the download links          
 function documentReady(data) {
 	
-	//Get the document of the from the downloaded data
+	//get the document of the from the downloaded data
 	var tempDoc = document.createElement("html");
 	tempDoc.innerHTML = data;
 
 	if (!isComplete) {
-		//Get the episode number and log the progress
-        //Update the progress page
+		//get the episode number and log the progress 
 		var episodeId = nextPage
 							.split("/")[5]
 							.split("?")[0]
 							.split("-")[1];
         console.log("Current Episode : " + episodeId);
-        document.getElementById(MESSAGE_SELECT).innerHTML = "Grabbed " + episodeLinks.length + " Episodes... ( <b>Current Episode : " + episodeId + "</b> )";
+        document.getElementById(MESSAGE_SELECT).innerHTML = "Grabbed " + (episodeLinks.length + 1) + " Episodes... ( <b>Current Episode : " + episodeId + "</b> )";
 		
-		//Get the download links and select the quality
-        //Push it to the download links list
+		//get the download links and store it as a list
         try {
             var episodeLink = document.createElement("li");
-            if (IS_KISSANIME) {
-                episodeLink.innerHTML = tempDoc.querySelector(DWN_SCRIPT_SEL).outerHTML;
-                episodeLink.getElementsByTagName("a")[0].innerHTML = episodeTitle.replace("-", episodeId);   
-            } else {
-                episodeLink.innerHTML = asp.wrap(tempDoc
-                                                    .querySelector(DWN_SCRIPT_SEL)
-                                                    .innerHTML
-                                                    .split('"')[1]);
-                episodeLink.getElementsByTagName("a")[videoQuality].innerHTML = episodeTitle.replace("-", episodeId);
-                episodeLink.innerHTML = episodeLink.getElementsByTagName("a")[videoQuality].outerHTML;
-            }
+			episodeLink.style = "padding-top:3px"
+
+			//links to different resolutions
+			episodeLink.innerHTML = IS_KISSANIME ? 
+										tempDoc.querySelector(DWN_SCRIPT_SEL).innerHTML  
+										: $kissenc.decrypt(tempDoc
+																.querySelector(DWN_SCRIPT_SEL)
+																.innerHTML
+																.split('"')[1]);
+
+			//add them to the episode list
+			episodeLink.childNodes[0].textContent = "Episode " + episodeId + ": ";
             episodeLinks.push(episodeLink);
+			document.getElementById("episodeList").appendChild(episodeLink);
+			$("a").attr("target", "blank");
         } catch (error) {
-            document.getElementById(MESSAGE_SELECT).innerHTML = "Sorry, but you have selected a file that is not avilable ☹";
-            setTimeout(function() { document.location.reload(); }, 5000);
+			console.log(error);
+            document.getElementById(MESSAGE_SELECT).innerHTML = "Not all the links were grabbed due to robot test... ☹";
             return;
         }
 		
-		//Traverse to the next page if available
-		//Otherwise navigate to the title page
+		//traverse to the next page if available otherwise to the title page
 		if (tempDoc.querySelector(NEXT_BUTTON_ID) != null) {
 			nextPage = tempDoc
 							.querySelector(NEXT_BUTTON_ID)
@@ -101,24 +87,24 @@ function documentReady(data) {
 			nextPage = tempDoc.querySelector(TITLE_SELECTOR).href;
 		}
 		
-		//Get the next page
-        //Have a timeout to prevent the website from discovering you as a script
-		setTimeout( function() { $.get(nextPage, documentReady); }, 1200);
+		//get the next page
+        //have a random timeout to prevent the website from discovering you as a script
+		setTimeout( function() { $.get(nextPage, documentReady); }, Math.floor(Math.random() * 5000) + 5000);
 	} else {
-		//Create a new HTML document for displaying the results
+		//create a new HTML document for displaying the results
 		writeDoc(episodeLinks, tempDoc);
 	}
 };
 
 function writeDoc(episodeList, tempDoc) {
-    
-	//Document Printer's Selectors
-	var COMMENTS_DIV = "#leftside > div:nth-child(" + (IS_KISSASIAN ? "8" : "7") + ")";
-	var EPISODE_LIST = "#leftside > div:nth-child(4) > div.barContent.episodeList";
+
+	//document editor's selectors
+	var COMMENTS_DIV = "#leftside > div:last-child";
+	var EPISODE_LIST = "#leftside > div > div.barContent.episodeList";
 	var RIT_ADS_DIVS = "#rightside > div:nth-child(5)";
 	var LFT_ADS_DIVS = "#leftside > center";
 	
-	//Create a new container to hold the new list of episodes
+	//create a new container to hold the new list of episodes
 	var divEpisodes = document.createElement("div");
 	var episodeHTML = "<ul><h3>";
 	for (var i in episodeList) {
@@ -127,20 +113,19 @@ function writeDoc(episodeList, tempDoc) {
 	episodeHTML += "</h3></ul>";
 	divEpisodes.innerHTML = "<div class='arrow-general'>&nbsp;</div>" + episodeHTML;
 	
-	//Remove the unwanted contents and add the required contents
-	try {
-		tempDoc.querySelector(COMMENTS_DIV).outerHTML = "";
-		tempDoc.querySelector(EPISODE_LIST).innerHTML = divEpisodes.outerHTML;
-		tempDoc.querySelector(LFT_ADS_DIVS).outerHTML = "";
-		tempDoc.querySelector(RIT_ADS_DIVS).outerHTML = "";   
-    } catch (error) {
-        console.log(error);
-    }	
-	
-	//Create the html document using the original document as a template
+	//remove the unwanted contents and add the required contents
+	if (tempDoc.querySelector(EPISODE_LIST) != null) tempDoc.querySelector(EPISODE_LIST).innerHTML = divEpisodes.outerHTML;
+	if (tempDoc.querySelector(COMMENTS_DIV) != null) tempDoc.querySelector(COMMENTS_DIV).outerHTML = "";
+	if (tempDoc.querySelector(LFT_ADS_DIVS) != null) tempDoc.querySelector(LFT_ADS_DIVS).outerHTML = "";
+	if (tempDoc.querySelector(RIT_ADS_DIVS) != null) tempDoc.querySelector(RIT_ADS_DIVS).outerHTML = "";
+
+	//create the html document using the original document as a template
 	var docHTML = "<html>"
 					+tempDoc.getElementsByTagName("head")[0].outerHTML
 					+"<body>"
+						+"<style>"
+							+"li > a:visited { opacity: 0.6 }"
+						+"</style>"
                         +"<br><br>"
 			 			+tempDoc.querySelector("#container").outerHTML
                         +"<div style='height:85%'></div>"
@@ -154,24 +139,32 @@ function writeDoc(episodeList, tempDoc) {
 				 +"</html>";
     document.documentElement.innerHTML = docHTML;
     
-    //Make all the links open in a new tab
-    var links = document.getElementsByTagName("a");
-    for ( var i in links ) {
-        links[i].target = "_blank";
-    }
+    //make all the links open in a new tab
+    $("a").attr("target", "_blank");
 }
 
-//Add a loading animation page to indicate the progress
+//add a loading animation page to indicate the progress
 var loadPage =  "<body style='background-color:whitesmoke'>"
-                    +"<div style='margin-top:150px'>"
+					+"Developed by <span><a href='https://github.com/KarthikMAM' target='_blank'>Karthik M A M</a></span>"
+                    +"<div style='margin-top:150px;'>"
                         +"<center>"
-                            +"<img style='margin-top:200px' src='http://i2.wp.com/smallenvelop.com/wp-content/uploads/2014/08/Preloader_3.gif?resize=64%2C64'>"
-                            +"<p id='grabberProgress' style='font-family:Arial, Helvetica, sans-serif; color: #737373'>Grabbing Episodes. . .</p>"
+                            +"<img style='margin-top:150px' src='" + chrome.extension.getURL("img/preloader.gif") + "'>"
+                            +"<p id='grabberProgress'>Grabbing Episodes. . .</p>"
+							+"<div style='display:table;'>"
+								+"<h4 align='left'>Download Links:</h4>"
+								+"<ul align='left' id='episodeList' style='color:040404;padding-left:30px;'/>"
+							+"</div>"
                         +"</center>"
                     +"</div>"
                 +"</body";
-document.head.innerHTML = "<title> KissAnime | KissCartoon | KissAsian Download Links Grabber </title>";
+document.head.innerHTML = "<title> KissAnime | KissCartoon | KissAsian Download Links Grabber </title>"
+							+"<style>"
+								+"* { font-family:Arial, Helvetica, sans-serif !important; color: #737373; }"
+								+"a { text-decoration: none !important; font-weight: bolder; color: blue; }"
+								+"a:visited { color: #8A2BE2; }"
+								+"a:hover { color: orange; }"
+							+"</style>";
 document.body.outerHTML = loadPage;
 
-//Start the links grabbing
+//start the links grabbing
 $.get(nextPage, documentReady);
