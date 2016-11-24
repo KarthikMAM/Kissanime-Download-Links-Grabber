@@ -3,19 +3,22 @@
     "name": "KissGrabber",
     "description": "KissAnime | KissCartoon | KissAsian episode links grabber ",
     "version": "1.0",
-    
-    
     "permissions": [
         "activeTab"
     ],
     "background": {
-        "scripts": ["Scripts/background.js"],
+        "scripts": [
+            "js/background.js"
+        ],
         "persistent": false
     },
     "browser_action": {
         "default_title": "KissGrabber"
     },
     "icons": {
-        "128" : "favicon.png"
-    }
+        "128": "favicon.png"
+    },
+    "web_accessible_resources": [
+        "img/*"
+    ]
 }

@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------------------------------
 
 	Author				: Karthik M A M
-	Version				: 1.0
+	Version				: 1.1
 	Websites Supported	: 1. http://www.kissanime.com
 						  2. http://www.kisscartoon.me
 						  3. http://www.kissasian.com
@@ -10,32 +10,36 @@
 
 -----------------------------------------------------------------------------------------------------------*/
 
-//Add a listener to inject the grabber script
+//add a listener to inject the grabber script
 //whenever the extension button is clicked
 chrome.browserAction.onClicked.addListener(
-    function(tab) {
-        //The include required scripts for running the built script
-        chrome.tabs.executeScript({ file: "Scripts/jquery.js" });
-        switch(tab.url.split("/")[2].split(".")[0]) {
+    function (tab) {
+        //the include required scripts for running the built script
+        chrome.tabs.executeScript({ file: "js/lib/jquery.js" });
+        switch (tab.url.split("/")[2].split(".")[0]) {
             case "kissanime":
-                chrome.tabs.executeScript({ file: "Scripts/kissanime-asp.js" });
-                break;
-            case "kisscartoon":
-                chrome.tabs.executeScript({ file: "Scripts/kisscartoon-asp.js" });
+                //directly get the links from the page
                 break;
             case "kissasian":
-                chrome.tabs.executeScript({ file: "Scripts/kissasian-asp.js" });
-                break;   
+                chrome.tabs.executeScript({ file: "js/lib/aes.js" });
+                chrome.tabs.executeScript({ file: "js/lib/sha256.js" });
+                chrome.tabs.executeScript({ file: "js/lib/kissasian-kissenc.js" });
+                break;
+            case "kisscartoon":
+                chrome.tabs.executeScript({ file: "js/lib/aes.js" });
+                chrome.tabs.executeScript({ file: "js/lib/sha256.js" });
+                chrome.tabs.executeScript({ file: "js/lib/kisscartoon-kissenc.js" });
+                break;
             default:
-                chrome.tabs.executeScript({ file: "Scripts/nosupport.js" });
+                chrome.tabs.executeScript({ file: "js/nosupport.js" });
                 return;
         }
-        
-        //Run the built script to capture the download links
+
+        //run the built script to capture the download links
         if (tab.url.includes("?id=")) {
-            chrome.tabs.executeScript({ file: "Scripts/grabber.js" });
+            chrome.tabs.executeScript({ file: "js/grabber.js" });
         } else {
-            chrome.tabs.executeScript({ file: "Scripts/nosupport.js" });
+            chrome.tabs.executeScript({ file: "js/nosupport.js" });
         }
     }
 );

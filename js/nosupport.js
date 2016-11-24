@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------------------------------
 
 	Author				: Karthik M A M
-	Version				: 0.1
+	Version				: 0.2
 	Websites Supported	: 1. http://www.kissanime.com
 						  2. http://www.kisscartoon.me
 						  3. http://www.kissasian.com
@@ -10,11 +10,11 @@
 
 -----------------------------------------------------------------------------------------------------------*/
 
-//Set the error message depending on the page in the active tab
+//set the error message depending on the page in the active tab
 var errorMsg;
 var errorPage = document.location.href;
 if (errorPage.includes("kissanime") || errorPage.includes("kissasian") || errorPage.includes("kisscartoon")) {
-    errorMsg =  "<div style='margin-left:50px'>"
+    errorMsg =  "<div>"
 					+"<h3>Please, Follow these instructions ✌</h3>"
 					+"<ul>"
 						+"<li>Refresh this page"
@@ -26,21 +26,28 @@ if (errorPage.includes("kissanime") || errorPage.includes("kissasian") || errorP
 	errorMsg = "<center><h3>Sorry, but this site is not supported. ☹</h3></center>";
 }
 
-//Set the error page using the error message
+//set the error page using the error message
 var loadPage =  "<body style='background-color:whitesmoke'>"
-                    +"<div style='margin-top:150px'>"
-                        +"<center>"
-                            +"<img style='margin-top:200px' src='http://i2.wp.com/smallenvelop.com/wp-content/uploads/2014/08/Preloader_3.gif?resize=64%2C64'>"
-                            +"<div style='font-family: Arial, Helvetica, sans-serif; color: #737373; text-align: left; width: 500px;'>"
-                                +errorMsg
-                            +"</div>"
-                        +"</center>"
-                    +"</div>"
-                +"</body";
-document.head.innerHTML = "<title> KissAnime | KissCartoon | KissAsian Download Links Grabber </title>";
+					+"Developed by <span><a href='https://github.com/KarthikMAM'>Karthik M A M</a></span>"
+					+"<center>"
+						+"<div style='margin-top:150px; display: table;'>"
+							+"<img style='margin-top:200px' src='" + chrome.extension.getURL("img/preloader.gif") + "'>"
+							+"<div align='left'>"
+								+errorMsg
+							+"</div>"
+						+"</div>"
+					+"</center>"
+				+"</body";
+document.head.innerHTML = "<title> KissAnime | KissCartoon | KissAsian Download Links Grabber </title>"
+							+"<style>"
+								+"* { font-family:Arial, Helvetica, sans-serif !important; color: #737373; }"
+								+"a { text-decoration: none !important; font-weight: bolder; color: blue; }"
+								+"a:visited { color: #8A2BE2; }"
+								+"a:hover { color: orange; }"
+							+"</style>";
 document.body.outerHTML = loadPage;
 
-//Refresh the page after 7 seconds
+//refresh the page after 7 seconds
 setTimeout(function(){
     window.location.reload();
 }, 7000);
